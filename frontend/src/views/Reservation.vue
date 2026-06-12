@@ -147,8 +147,11 @@ const form = reactive({
 
 const dateOptions = {
   disabledDate(time) {
+    // 禁止选择今天之前的日期
     return time.getTime() < Date.now() - 86400000
-  }
+  },
+  // 限制只能选择未来 30 天内的日期
+  maxDate: new Date(Date.now() + 30 * 86400000)
 }
 
 const rules = {
