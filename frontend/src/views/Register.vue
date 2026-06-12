@@ -32,19 +32,37 @@
         <el-form-item prop="password">
           <el-input 
             v-model="form.password" 
-            type="password" 
+            :type="showPassword ? 'text' : 'password'" 
             placeholder="请输入密码"
             prefix-icon="Lock"
-          />
+            class="password-input"
+          >
+            <template #suffix>
+              <span class="password-toggle" @click="showPassword = !showPassword">
+                <el-icon :size="20" class="eye-icon" :class="{ 'active': showPassword }">
+                  <component :is="showPassword ? 'Eye' : 'EyeClosed'" />
+                </el-icon>
+              </span>
+            </template>
+          </el-input>
         </el-form-item>
         
         <el-form-item prop="confirmPassword">
           <el-input 
             v-model="form.confirmPassword" 
-            type="password" 
+            :type="showConfirmPassword ? 'text' : 'password'" 
             placeholder="请确认密码"
             prefix-icon="Lock"
-          />
+            class="password-input"
+          >
+            <template #suffix>
+              <span class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">
+                <el-icon :size="20" class="eye-icon" :class="{ 'active': showConfirmPassword }">
+                  <component :is="showConfirmPassword ? 'Eye' : 'EyeClosed'" />
+                </el-icon>
+              </span>
+            </template>
+          </el-input>
         </el-form-item>
         
         <el-form-item>
@@ -78,6 +96,9 @@ const form = reactive({
   password: '',
   confirmPassword: ''
 })
+
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 
 const validateConfirmPassword = (rule, value, callback) => {
   if (value !== form.password) {
@@ -176,5 +197,42 @@ h2 {
 .links a {
   color: #667eea;
   text-decoration: none;
+}
+
+.password-input {
+  --el-input-suffix-icon-color: #999;
+}
+
+.password-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  margin-right: 4px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.password-toggle:hover {
+  background-color: #e8e8e8;
+  border-color: #667eea;
+}
+
+.password-toggle:active {
+  background-color: #d8d8d8;
+}
+
+.eye-icon {
+  color: #667eea;
+  font-size: 22px;
+  transition: color 0.2s ease;
+}
+
+.eye-icon.active {
+  color: #764ba2;
 }
 </style>
