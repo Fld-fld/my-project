@@ -4,15 +4,15 @@
     
     <!-- 标签页 -->
     <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-      <el-tab-pane label="待取" name="PENDING">
-        <span slot="label">
+      <el-tab-pane name="PENDING">
+        <template #label>
           待取 ({{ pendingList.length }})
-        </span>
+        </template>
       </el-tab-pane>
-      <el-tab-pane label="已取" name="PICKED_UP">
-        <span slot="label">
+      <el-tab-pane name="PICKED_UP">
+        <template #label>
           已取 ({{ pickedList.length }})
-        </span>
+        </template>
       </el-tab-pane>
     </el-tabs>
     
@@ -59,10 +59,21 @@
           </el-button>
         </div>
       </div>
+      
+      <!-- 分页器 -->
+      <div class="pagination" v-if="totalList.length > pageSize">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          :total="totalList.length"
+          layout="prev, pager, next"
+          @current-change="handlePageChange"
+        />
+      </div>
     </div>
     
     <!-- 详情弹窗 -->
-    <el-dialog title="快递详情" :visible.sync="detailVisible" width="90%">
+    <el-dialog title="快递详情" :visible="detailVisible" @update:visible="detailVisible = $event" width="90%">
       <div v-if="currentExpress" class="detail-content">
         <el-descriptions :column="1" border>
           <el-descriptions-item label="快递公司">{{ currentExpress.company }}</el-descriptions-item>
@@ -99,9 +110,22 @@ const pickedList = ref([])
 const detailVisible = ref(false)
 const currentExpress = ref(null)
 
+// 分页相关
+const currentPage = ref(1)
+const pageSize = ref(10)
+
 const currentList = computed(() => {
-  return activeTab.value === 'PENDING' ? pendingList.value : pickedList.value
+  const list = activeTab.value === 'PENDING' ? pendingList.value : pickedList.value
+  // 计算分页
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return list.slice(start, end)
 })
+
+// 监听列表变化，重置页码
+const resetPage = () => {
+  currentPage.value = 1
+}
 
 const getStatusText = (status) => {
   const map = {
@@ -132,8 +156,18 @@ const loadExpressList = async () => {
   }
 }
 
+const totalList = computed(() => {
+  return activeTab.value === 'PENDING' ? pendingList.value : pickedList.value
+})
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 const handleTabChange = () => {
-  // 标签切换时不需要重新加载
+  // 标签切换时重置页码
+  resetPage()
 }
 
 const showDetail = (item) => {
@@ -268,5 +302,12 @@ h1 {
 .detail-actions {
   margin-top: 20px;
   text-align: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px 0;
 }
 </style>
