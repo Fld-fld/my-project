@@ -20,6 +20,14 @@
           <span class="icon">📅</span>
           <span>预约管理</span>
         </router-link>
+        <router-link to="/admin/user/manage" class="nav-item">
+          <span class="icon">👥</span>
+          <span>用户管理</span>
+        </router-link>
+        <router-link to="/admin/notice/manage" class="nav-item">
+          <span class="icon">📢</span>
+          <span>公告管理</span>
+        </router-link>
       </nav>
       <div class="logout-section">
         <el-button type="danger" size="small" @click="handleLogout">退出登录</el-button>

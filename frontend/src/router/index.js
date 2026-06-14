@@ -86,6 +86,18 @@ const routes = [
         name: 'ReservationManage',
         component: () => import('../views/admin/ReservationManage.vue'),
         meta: { title: '预约管理', requiresAuth: true, isAdmin: true }
+      },
+      {
+        path: '/admin/user/manage',
+        name: 'UserManage',
+        component: () => import('../views/admin/UserManage.vue'),
+        meta: { title: '用户管理', requiresAuth: true, isAdmin: true }
+      },
+      {
+        path: '/admin/notice/manage',
+        name: 'NoticeManage',
+        component: () => import('../views/admin/NoticeManage.vue'),
+        meta: { title: '公告管理', requiresAuth: true, isAdmin: true }
       }
     ]
   }

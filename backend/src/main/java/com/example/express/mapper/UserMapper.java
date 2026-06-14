@@ -25,4 +25,10 @@ public interface UserMapper {
     
     @Select("SELECT * FROM user")
     java.util.List<User> findAll();
+    
+    @Update("UPDATE user SET status=#{status} WHERE id=#{id}")
+    int updateStatus(Long id, Integer status);
+    
+    @Delete("DELETE FROM user WHERE id=#{id}")
+    int delete(Long id);
 }

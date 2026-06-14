@@ -101,5 +101,33 @@ export const adminAPI = {
   // 获取统计数据
   getStatistics() {
     return request.get('/admin/statistics')
+  },
+  // 获取用户列表
+  getUserList() {
+    return request.get('/admin/user/list')
+  },
+  // 更新用户状态
+  updateUserStatus(id, status) {
+    return request.put(`/admin/user/${id}/status`, null, { params: { status } })
+  },
+  // 删除用户
+  deleteUser(id) {
+    return request.delete(`/admin/user/${id}`)
+  },
+  // 获取公告列表
+  getNoticeList() {
+    return request.get('/admin/notice/list')
+  },
+  // 创建公告
+  createNotice(data) {
+    return request.post('/admin/notice', data)
+  },
+  // 更新公告
+  updateNotice(id, data) {
+    return request.put(`/admin/notice/${id}`, data)
+  },
+  // 删除公告
+  deleteNotice(id) {
+    return request.delete(`/admin/notice/${id}`)
   }
 }
