@@ -13,6 +13,14 @@ export const authAPI = {
   // 获取用户信息
   getUserInfo() {
     return request.get('/auth/userinfo')
+  },
+  // 发送验证码
+  sendCode(phone) {
+    return request.post('/auth/send-code', null, { params: { phone } })
+  },
+  // 重置密码
+  resetPassword(data) {
+    return request.post('/auth/reset-password', data)
   }
 }
 
@@ -21,6 +29,14 @@ export const adminAuthAPI = {
   // 管理员登录
   login(data) {
     return request.post('/admin/auth/login', data)
+  },
+  // 发送验证码
+  sendCode(username) {
+    return request.post('/admin/auth/send-code', null, { params: { username } })
+  },
+  // 重置密码
+  resetPassword(data) {
+    return request.post('/admin/auth/reset-password', data)
   }
 }
 
@@ -101,6 +117,10 @@ export const adminAPI = {
   // 获取统计数据
   getStatistics() {
     return request.get('/admin/statistics')
+  },
+  // 修改密码
+  changePassword(oldPassword, newPassword) {
+    return request.put('/admin/password', null, { params: { oldPassword, newPassword } })
   },
   // 获取用户列表
   getUserList() {

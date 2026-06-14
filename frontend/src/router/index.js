@@ -9,6 +9,12 @@ const routes = [
     meta: { title: '登录' }
   },
   {
+    path: '/forget-password',
+    name: 'ForgetPassword',
+    component: () => import('../views/ForgetPassword.vue'),
+    meta: { title: '忘记密码' }
+  },
+  {
     path: '/register',
     name: 'Register',
     component: () => import('../views/Register.vue'),
@@ -19,6 +25,12 @@ const routes = [
     name: 'AdminLogin',
     component: () => import('../views/AdminLogin.vue'),
     meta: { title: '管理员登录' }
+  },
+  {
+    path: '/admin/forget-password',
+    name: 'AdminForgetPassword',
+    component: () => import('../views/AdminForgetPassword.vue'),
+    meta: { title: '管理员忘记密码' }
   },
   {
     path: '/',

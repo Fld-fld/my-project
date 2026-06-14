@@ -11,4 +11,7 @@ public interface AdminMapper {
     
     @Select("SELECT * FROM admin WHERE id = #{id}")
     Admin findById(Long id);
+    
+    @Update("UPDATE admin SET password = #{password}, updated_at = NOW() WHERE id = #{id}")
+    void update(Admin admin);
 }

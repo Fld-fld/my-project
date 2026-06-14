@@ -40,6 +40,8 @@
       </el-form>
       
       <div class="links">
+        <router-link to="/admin/forget-password">忘记密码?</router-link>
+        <span class="divider">|</span>
         <router-link to="/login">用户登录</router-link>
       </div>
     </div>
@@ -138,6 +140,11 @@ h2 {
 .links a {
   color: #667eea;
   text-decoration: none;
+}
+
+.divider {
+  margin: 0 10px;
+  color: #ddd;
 }
 
 .password-input {

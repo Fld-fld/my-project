@@ -48,4 +48,22 @@ public class AuthController {
         UserVO user = authService.getUserInfo(userId);
         return Result.success(user);
     }
+    
+    /**
+     * 发送验证码
+     */
+    @PostMapping("/send-code")
+    public Result<String> sendCode(@RequestParam String phone) {
+        authService.sendVerificationCode(phone);
+        return Result.success("验证码已发送");
+    }
+    
+    /**
+     * 重置密码
+     */
+    @PostMapping("/reset-password")
+    public Result<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request.getPhone(), request.getCode(), request.getNewPassword());
+        return Result.success("密码重置成功");
+    }
 }

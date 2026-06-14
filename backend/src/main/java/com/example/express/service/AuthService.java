@@ -102,6 +102,44 @@ public class AuthService {
     }
     
     /**
+     * 发送验证码
+     */
+    public void sendVerificationCode(String phone) {
+        User user = userMapper.findByPhone(phone);
+        if (user == null) {
+            throw new BusinessException("该手机号未注册");
+        }
+        
+        String code = String.format("%06d", new java.util.Random().nextInt(999999));
+        
+        System.out.println("=== 用户验证码 ===");
+        System.out.println("手机号: " + phone);
+        System.out.println("验证码: " + code);
+        
+        verificationCodeStore.put(phone, code);
+    }
+    
+    /**
+     * 重置密码
+     */
+    public void resetPassword(String phone, String code, String newPassword) {
+        String storedCode = verificationCodeStore.get(phone);
+        if (storedCode == null || !storedCode.equals(code)) {
+            throw new BusinessException("验证码错误");
+        }
+        
+        User user = userMapper.findByPhone(phone);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        
+        user.setPassword(encryptPassword(newPassword));
+        userMapper.update(user);
+        
+        verificationCodeStore.remove(phone);
+    }
+    
+    /**
      * 实体转VO
      */
     private UserVO toUserVO(User user) {
@@ -113,4 +151,6 @@ public class AuthService {
         vo.setRole(user.getRole());
         return vo;
     }
+    
+    private java.util.Map<String, String> verificationCodeStore = new java.util.HashMap<>();
 }
