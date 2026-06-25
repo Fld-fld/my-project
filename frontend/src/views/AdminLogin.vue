@@ -142,11 +142,6 @@ h2 {
   text-decoration: none;
 }
 
-.divider {
-  margin: 0 10px;
-  color: #ddd;
-}
-
 .password-input {
   --el-input-suffix-icon-color: #999;
 }

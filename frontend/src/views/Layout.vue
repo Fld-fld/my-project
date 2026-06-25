@@ -1,23 +1,11 @@
 <template>
   <div class="layout">
-    <!-- 顶部导航 -->
-    <div class="header">
-      <div class="logo">校园快递</div>
-      <div class="nav">
-        <router-link to="/home" class="nav-item">首页</router-link>
-        <router-link to="/my-express" class="nav-item">我的快递</router-link>
-        <router-link to="/reservation" class="nav-item">取件预约</router-link>
-        <router-link to="/notifications" class="nav-item">消息</router-link>
-        <router-link to="/profile" class="nav-item">我的</router-link>
-      </div>
-    </div>
-    
     <!-- 主体内容 -->
     <div class="main">
       <router-view />
     </div>
     
-    <!-- 底部导航 -->
+    <!-- 底部Tab栏 -->
     <div class="footer">
       <router-link to="/home" class="tab-item">
         <span class="icon">🏠</span>
@@ -47,45 +35,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.header {
-  background: white;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  color: #667eea;
-}
-
-.nav {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-item {
-  color: #666;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.nav-item.router-link-active {
-  color: #667eea;
-  font-weight: bold;
+  background-color: #f5f7fa;
 }
 
 .main {
   flex: 1;
-  padding: 20px;
+  padding: 0;
   padding-bottom: 70px;
 }
 
@@ -97,8 +52,9 @@
   background: white;
   display: flex;
   justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 100;
 }
 
 .tab-item {
@@ -106,16 +62,28 @@
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: #666;
-  font-size: 12px;
+  color: #999;
+  font-size: 11px;
+  padding: 4px 0;
+  transition: all 0.2s;
+  min-width: 50px;
+}
+
+.tab-item .icon {
+  font-size: 22px;
+  margin-bottom: 2px;
+  transition: transform 0.2s;
 }
 
 .tab-item.router-link-active {
   color: #667eea;
 }
 
-.icon {
-  font-size: 20px;
-  margin-bottom: 4px;
+.tab-item.router-link-active .icon {
+  transform: scale(1.1);
+}
+
+.tab-item:active {
+  transform: scale(0.95);
 }
 </style>

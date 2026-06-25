@@ -54,6 +54,9 @@ export const expressAPI = {
   getAllList(params) {
     return request.get('/express/all', { params })
   },
+  getAll(params) {
+    return request.get('/express/all', { params })
+  },
   // 录入快递（管理员）
   add(data) {
     return request.post('/express', data)
@@ -61,6 +64,10 @@ export const expressAPI = {
   // 更新快递状态
   updateStatus(id, status) {
     return request.put(`/express/${id}/status`, null, { params: { status } })
+  },
+  // 删除快递
+  delete(id) {
+    return request.delete(`/express/${id}`)
   }
 }
 
@@ -82,9 +89,47 @@ export const reservationAPI = {
   getAllList(params) {
     return request.get('/reservation/all', { params })
   },
+  getAll(params) {
+    return request.get('/reservation/all', { params })
+  },
   // 完成预约（管理员）
   complete(id) {
     return request.put(`/reservation/${id}/complete`)
+  }
+}
+
+// 用户管理（管理员侧）
+export const userAPI = {
+  getList() {
+    return request.get('/admin/user/list')
+  },
+  getDetail(id) {
+    return request.get(`/admin/user/${id}`)
+  },
+  updateStatus(id, status) {
+    return request.put(`/admin/user/${id}/status`, null, { params: { status } })
+  },
+  delete(id) {
+    return request.delete(`/admin/user/${id}`)
+  }
+}
+
+// 公告管理（管理员侧）
+export const noticeAPI = {
+  getList() {
+    return request.get('/admin/notice/list')
+  },
+  getDetail(id) {
+    return request.get(`/admin/notice/${id}`)
+  },
+  add(data) {
+    return request.post('/admin/notice', data)
+  },
+  update(id, data) {
+    return request.put(`/admin/notice/${id}`, data)
+  },
+  delete(id) {
+    return request.delete(`/admin/notice/${id}`)
   }
 }
 

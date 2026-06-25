@@ -1,6 +1,6 @@
 <template>
-  <div class="forget-container">
-    <div class="forget-box">
+  <div class="forget-password-container">
+    <div class="forget-password-box">
       <h2>校园快递取件优化系统</h2>
       <p class="subtitle">忘记密码</p>
       
@@ -9,7 +9,7 @@
           <el-input 
             v-model="form.phone" 
             placeholder="请输入手机号"
-            prefix-icon="Phone"
+            prefix-icon="User"
           />
         </el-form-item>
         
@@ -32,37 +32,19 @@
         <el-form-item v-if="step === 2" prop="newPassword">
           <el-input 
             v-model="form.newPassword" 
-            :type="showPassword ? 'text' : 'password'" 
+            type="password"
             placeholder="请输入新密码"
             prefix-icon="Lock"
-            class="password-input"
-          >
-            <template #suffix>
-              <span class="password-toggle" @click="showPassword = !showPassword">
-                <el-icon :size="20" class="eye-icon">
-                  <component :is="showPassword ? 'Eye' : 'EyeClosed'" />
-                </el-icon>
-              </span>
-            </template>
-          </el-input>
+          />
         </el-form-item>
         
         <el-form-item v-if="step === 2" prop="confirmPassword">
           <el-input 
             v-model="form.confirmPassword" 
-            :type="showPassword ? 'text' : 'password'" 
+            type="password"
             placeholder="请确认新密码"
             prefix-icon="Lock"
-            class="password-input"
-          >
-            <template #suffix>
-              <span class="password-toggle" @click="showPassword = !showPassword">
-                <el-icon :size="20" class="eye-icon">
-                  <component :is="showPassword ? 'Eye' : 'EyeClosed'" />
-                </el-icon>
-              </span>
-            </template>
-          </el-input>
+          />
         </el-form-item>
         
         <el-form-item>
@@ -74,8 +56,6 @@
       
       <div class="links">
         <router-link to="/login">返回登录</router-link>
-        <span class="divider">|</span>
-        <router-link to="/register">注册账号</router-link>
       </div>
     </div>
   </div>
@@ -92,7 +72,6 @@ const formRef = ref(null)
 const loading = ref(false)
 const step = ref(1)
 const countdown = ref(0)
-const showPassword = ref(false)
 
 const form = reactive({
   phone: '',
@@ -182,7 +161,7 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-.forget-container {
+.forget-password-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -190,7 +169,7 @@ const handleSubmit = async () => {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.forget-box {
+.forget-password-box {
   background: white;
   padding: 40px;
   border-radius: 10px;
@@ -229,11 +208,6 @@ h2 {
   text-decoration: none;
 }
 
-.divider {
-  margin: 0 10px;
-  color: #ddd;
-}
-
 .send-code-btn {
   position: absolute;
   right: 10px;
@@ -241,37 +215,5 @@ h2 {
   transform: translateY(-50%);
   padding: 0;
   font-size: 14px;
-}
-
-.password-input {
-  --el-input-suffix-icon-color: #999;
-}
-
-.password-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  margin-right: 4px;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-}
-
-.password-toggle:hover {
-  background-color: #e8e8e8;
-  border-color: #667eea;
-}
-
-.password-toggle:active {
-  background-color: #d8d8d8;
-}
-
-.eye-icon {
-  color: #667eea;
-  font-size: 22px;
 }
 </style>
