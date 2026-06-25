@@ -15,14 +15,27 @@
         </el-table-column>
         <el-table-column prop="status" label="状态">
           <template #default="scope">
-            <el-switch 
-              :value="scope.row.status === 1" 
-              @change="handleStatusChange(scope.row.id, $event)"
-              :disabled="scope.row.role === 'ADMIN'"
-            />
+            <div class="status-cell">
+              <el-switch 
+                v-model="scope.row.status" 
+                :active-value="1" 
+                :inactive-value="0"
+                @change="handleStatusChange(scope.row.id, $event)"
+                :disabled="scope.row.role === 'ADMIN'"
+                active-color="#67c23a"
+                inactive-color="#f56c6c"
+              />
+              <span :class="scope.row.status === 1 ? 'status-active' : 'status-inactive'">
+                {{ scope.row.status === 1 ? '启用' : '禁用' }}
+              </span>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180" />
+        <el-table-column prop="createdAt" label="创建时间" width="180">
+          <template #default="scope">
+            <span>{{ formatDateTime(scope.row.createdAt) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="120">
           <template #default="scope">
             <el-button 
@@ -43,6 +56,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { adminAPI } from '../../api'
+import { ElMessage } from 'element-plus'
 
 const userList = ref([])
 
@@ -57,10 +71,12 @@ const loadUserList = async () => {
 
 const handleStatusChange = async (id, value) => {
   try {
-    await adminAPI.updateUserStatus(id, value ? 1 : 0)
-    loadUserList()
+    await adminAPI.updateUserStatus(id, value)
+    ElMessage.success(value === 1 ? '用户已启用' : '用户已禁用')
   } catch (error) {
+    ElMessage.error('更新用户状态失败')
     console.error('更新用户状态失败:', error)
+    loadUserList()
   }
 }
 
@@ -73,6 +89,18 @@ const handleDelete = async (id) => {
       console.error('删除用户失败:', error)
     }
   }
+}
+
+const formatDateTime = (dateTime) => {
+  if (!dateTime) return ''
+  const date = new Date(dateTime)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
 onMounted(() => {
@@ -97,5 +125,21 @@ onMounted(() => {
   background: #e3f2fd;
   padding: 2px 8px;
   border-radius: 4px;
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-active {
+  color: #67c23a;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #f56c6c;
+  font-weight: 500;
 }
 </style>

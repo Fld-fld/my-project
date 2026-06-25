@@ -108,12 +108,62 @@ public class ExpressService {
     /**
      * 更新快递状态
      */
+    @Transactional
     public void updateExpressStatus(Long id, String status) {
         Express express = expressMapper.findById(id);
         if (express == null) {
             throw new BusinessException("快递不存在");
         }
+        
+        String oldStatus = express.getStatus();
         expressMapper.updateStatus(id, status);
+        
+        if ("PICKED_UP".equals(status) && !"PICKED_UP".equals(oldStatus)) {
+            User user = userMapper.findByPhone(express.getRecipientPhone());
+            if (user != null) {
+                Notification notification = new Notification();
+                notification.setUserId(user.getId());
+                notification.setType("PICKUP");
+                notification.setTitle("快递已取件");
+                notification.setContent(String.format(
+                    "您的快递已成功取件\n快递单号：%s\n取件码：%s",
+                    express.getTrackingNumber(),
+                    express.getPickupCode()
+                ));
+                notification.setIsRead(0);
+                notificationMapper.insert(notification);
+            }
+        }
+    }
+    
+    /**
+     * 补发快递到达通知
+     */
+    @Transactional
+    public void resendArrivalNotification(Long expressId) {
+        Express express = expressMapper.findById(expressId);
+        if (express == null) {
+            throw new BusinessException("快递不存在");
+        }
+        
+        User user = userMapper.findByPhone(express.getRecipientPhone());
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        
+        Notification notification = new Notification();
+        notification.setUserId(user.getId());
+        notification.setType("ARRIVAL");
+        notification.setTitle("您的快递已到达");
+        notification.setContent(String.format(
+            "快递单号：%s\n快递公司：%s\n取件码：%s\n存放位置：%s",
+            express.getTrackingNumber(),
+            express.getCompany(),
+            express.getPickupCode(),
+            express.getLocation()
+        ));
+        notification.setIsRead(0);
+        notificationMapper.insert(notification);
     }
     
     /**

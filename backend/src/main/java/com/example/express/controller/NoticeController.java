@@ -13,7 +13,7 @@ import java.util.Map;
  * 公告控制器
  */
 @RestController
-@RequestMapping("/admin/notice")
+@RequestMapping("/api/admin/notice")
 public class NoticeController {
     
     @Autowired

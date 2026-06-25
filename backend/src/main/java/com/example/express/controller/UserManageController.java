@@ -12,7 +12,7 @@ import java.util.List;
  * 用户管理控制器
  */
 @RestController
-@RequestMapping("/admin/user")
+@RequestMapping("/api/admin/user")
 public class UserManageController {
     
     @Autowired

@@ -7,6 +7,7 @@ import com.example.express.service.ReservationService;
 import com.example.express.util.JwtUtil;
 import com.example.express.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -69,7 +70,7 @@ public class ReservationController {
      * 管理员：查询所有预约
      */
     @GetMapping("/all")
-    public Result<List<Reservation>> getAllReservations(@RequestParam(required = false) LocalDate date) {
+    public Result<List<Reservation>> getAllReservations(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<Reservation> list;
         if (date != null) {
             list = reservationService.getReservationsByDate(date);

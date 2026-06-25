@@ -54,6 +54,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { adminAPI } from '../../api'
+import { ElMessage } from 'element-plus'
 
 const noticeList = ref([])
 const showAddDialog = ref(false)
@@ -104,9 +105,12 @@ const handleSave = async () => {
 
 const handleToggleStatus = async (id, status) => {
   try {
-    await adminAPI.updateNotice(id, { status: status === 1 ? 0 : 1 })
+    const newStatus = status === 1 ? 0 : 1
+    await adminAPI.updateNotice(id, { status: newStatus })
+    ElMessage.success(newStatus === 1 ? '公告已发布' : '公告已下架')
     loadNoticeList()
   } catch (error) {
+    ElMessage.error('更新公告状态失败')
     console.error('更新公告状态失败:', error)
   }
 }

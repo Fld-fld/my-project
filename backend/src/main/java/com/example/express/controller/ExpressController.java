@@ -86,4 +86,13 @@ public class ExpressController {
         expressService.updateExpressStatus(id, status);
         return Result.success("更新成功");
     }
+    
+    /**
+     * 补发快递到达通知
+     */
+    @PostMapping("/{id}/resend-notification")
+    public Result<String> resendNotification(@PathVariable Long id) {
+        expressService.resendArrivalNotification(id);
+        return Result.success("通知已补发");
+    }
 }

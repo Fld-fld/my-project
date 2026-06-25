@@ -42,6 +42,8 @@
       <div class="links">
         <router-link to="/register">还没有账号？去注册</router-link>
         <span class="divider">|</span>
+        <router-link to="/forget-password">忘记密码?</router-link>
+        <span class="divider">|</span>
         <router-link to="/admin/login">管理员登录</router-link>
       </div>
     </div>
