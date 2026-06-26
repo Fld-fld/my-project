@@ -14,6 +14,9 @@ public interface ExpressMapper {
     @Select("SELECT * FROM express WHERE tracking_number = #{trackingNumber}")
     Express findByTrackingNumber(String trackingNumber);
     
+    @Select("SELECT * FROM express WHERE pickup_code = #{pickupCode}")
+    Express findByPickupCode(String pickupCode);
+    
     @Select("SELECT * FROM express WHERE recipient_phone = #{recipientPhone} ORDER BY created_at DESC")
     List<Express> findByRecipientPhone(String recipientPhone);
     

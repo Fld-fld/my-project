@@ -51,7 +51,16 @@ public class ExpressController {
      * 管理员：获取所有快递列表
      */
     @GetMapping("/all")
-    public Result<List<Express>> getAllExpressList(@RequestParam(required = false) String status) {
+    public Result<List<Express>> getAllExpressList(
+            @RequestHeader(value = "Authorization", required = false) String token,
+            @RequestParam(required = false) String status) {
+        if (token == null || !token.startsWith("Bearer ") || !JwtUtil.validateToken(token.replace("Bearer ", ""))) {
+            throw new BusinessException("请先登录");
+        }
+        String role = JwtUtil.getRole(token.replace("Bearer ", ""));
+        if (!"ADMIN".equals(role)) {
+            throw new BusinessException("无权限操作");
+        }
         List<Express> list;
         if (status != null && !status.equals("ALL")) {
             list = expressService.getExpressListByStatus(status);
@@ -70,6 +79,10 @@ public class ExpressController {
             @RequestBody ExpressRequest request) {
         if (token == null || !token.startsWith("Bearer ") || !JwtUtil.validateToken(token.replace("Bearer ", ""))) {
             throw new BusinessException("请先登录");
+        }
+        String role = JwtUtil.getRole(token.replace("Bearer ", ""));
+        if (!"ADMIN".equals(role)) {
+            throw new BusinessException("无权限操作");
         }
         Long adminId = JwtUtil.getUserId(token.replace("Bearer ", ""));
         Express express = expressService.addExpress(request, adminId);

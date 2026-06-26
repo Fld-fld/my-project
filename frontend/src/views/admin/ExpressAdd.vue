@@ -91,10 +91,12 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { expressAPI } from '@/api'
 import { Check, Upload } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const formRef = ref(null)
 const submitting = ref(false)
 const activeTab = ref('single')
@@ -194,6 +196,7 @@ const handleSubmit = async () => {
     
     ElMessage.success('录入成功')
     formRef.value.resetFields()
+    router.push('/admin/express/manage')
   } catch (error) {
     console.error('录入失败:', error)
   } finally {
@@ -251,6 +254,7 @@ const handleBatchSubmit = async () => {
     }
     
     batchText.value = ''
+    router.push('/admin/express/manage')
   } catch (error) {
     console.error('批量录入失败:', error)
   } finally {

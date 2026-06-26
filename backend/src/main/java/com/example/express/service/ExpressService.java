@@ -192,7 +192,7 @@ public class ExpressService {
             if (count > 100) {
                 throw new BusinessException("取件码生成失败");
             }
-        } while (expressMapper.findByTrackingNumber(code) != null);
+        } while (expressMapper.findByPickupCode(code) != null);
         
         return code;
     }
